@@ -20,7 +20,13 @@ class CustomTextField extends StatelessWidget {
               borderSide: BorderSide(
             color: Colors.black38,
           ))),
-      validator: (value) {},
+      validator: (val) {
+        if (val == null || val.isEmpty) {
+          return 'Nhập $hintText';
+        }
+
+        return null;
+      },
     );
   }
 }
