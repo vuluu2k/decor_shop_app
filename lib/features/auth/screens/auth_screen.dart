@@ -40,6 +40,14 @@ class _AuthScreenState extends State<AuthScreen> {
         name: _nameController.text);
   }
 
+  void signInUser() {
+    print('in here');
+    authService.signInUser(
+        context: context,
+        email: _emailController.text,
+        password: _passwordController.text);
+  }
+
   @override
   Widget build(BuildContext context) {
     // Navigator.pushNamed(context, 'Test');
@@ -130,7 +138,7 @@ class _AuthScreenState extends State<AuthScreen> {
                         child: Column(
                           children: [
                             CustomTextField(
-                              controller: _nameController,
+                              controller: _emailController,
                               hintText: "Tên người dùng / email",
                             ),
                             const SizedBox(height: 10),
@@ -139,7 +147,13 @@ class _AuthScreenState extends State<AuthScreen> {
                               hintText: "Mật khẩu",
                             ),
                             const SizedBox(height: 10),
-                            CustomButton(text: 'Đăng nhập', onTap: () {})
+                            CustomButton(
+                                text: 'Đăng nhập',
+                                onTap: () {
+                                  if (_signInFormKey.currentState!.validate()) {
+                                    signInUser();
+                                  }
+                                })
                           ],
                         )),
                   ),
