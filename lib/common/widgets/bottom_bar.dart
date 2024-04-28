@@ -13,8 +13,6 @@ class BottomBar extends StatefulWidget {
 
 class _BottomBarState extends State<BottomBar> {
   int _page = 0;
-  double bottomBarWidth = 42;
-  double bottomBarBorderWidth = 1;
 
   List<Widget> pages = [
     const HomeScreen(),
@@ -45,6 +43,7 @@ class _BottomBarState extends State<BottomBar> {
           iconSize: 28,
           onTap: updatePage,
           showUnselectedLabels: true,
+          landscapeLayout: BottomNavigationBarLandscapeLayout.linear,
           items: [
             BottomNavigationBarItem(
                 icon: _page == 0

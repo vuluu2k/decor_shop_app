@@ -54,6 +54,7 @@ class _OrdersState extends State<Orders> {
             padding:
                 const EdgeInsets.only(left: 10, top: 20, right: 0, bottom: 0),
             child: ListView.builder(
+                scrollDirection: Axis.horizontal,
                 itemCount: list.length,
                 itemBuilder: (context, index) {
                   return ProductOrderItem(image: list[index]["image"]);

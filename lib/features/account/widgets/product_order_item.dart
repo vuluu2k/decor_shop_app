@@ -16,7 +16,11 @@ class ProductOrderItem extends StatelessWidget {
           child: Container(
             width: 180,
             padding: const EdgeInsets.all(10),
-            child: Image.network(image, fit: BoxFit.cover),
+            child: Image.network(
+              image,
+              fit: BoxFit.fitHeight,
+              width: 180,
+            ),
           ),
         ));
   }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
+import 'package:shop/constants/global_variables.dart';
 import 'package:shop/providers/user_provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -16,8 +18,43 @@ class _HomeScreenState extends State<HomeScreen> {
     final user = Provider.of<UserProvider>(context).user;
 
     return Scaffold(
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(50),
+          child: AppBar(
+            flexibleSpace: Container(
+              decoration: const BoxDecoration(
+                gradient: GlobalVariables.appBarGradient,
+              ),
+            ),
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Container(
+                    height: 42,
+                    margin: const EdgeInsets.only(left: 15),
+                    child: Material(
+                      borderRadius: BorderRadius.circular(8),
+                      elevation: 0,
+                    ),
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.only(left: 15, right: 15),
+                  child: const Row(children: [
+                    Padding(
+                      padding: EdgeInsets.only(right: 15),
+                      child: Icon(Icons.notifications_outlined),
+                    ),
+                    Icon(Icons.search)
+                  ]),
+                )
+              ],
+            ),
+          ),
+        ),
         body: Center(
-      child: Text(user.toJson()),
-    ));
+          child: Text(user.toJson()),
+        ));
   }
 }
