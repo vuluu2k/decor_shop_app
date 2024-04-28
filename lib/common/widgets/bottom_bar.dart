@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shop/constants/global_variables.dart';
+import 'package:shop/features/account/screens/account_screen.dart';
+import 'package:shop/features/home/screens/home_screen.dart';
 
 class BottomBar extends StatefulWidget {
   static const String routeName = '/actual-home';
@@ -12,55 +14,67 @@ class BottomBar extends StatefulWidget {
 class _BottomBarState extends State<BottomBar> {
   int _page = 0;
   double bottomBarWidth = 42;
-  double bottomBarBorderWidth = 5;
+  double bottomBarBorderWidth = 1;
+
+  List<Widget> pages = [
+    const HomeScreen(),
+    const Center(
+      child: Text('Cart Page'),
+    ),
+    const Center(
+      child: Text('Favorite Page'),
+    ),
+    const AccountScreen(),
+  ];
+
+  void updatePage(int page) {
+    setState(() {
+      _page = page;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      body: pages[_page],
       bottomNavigationBar: BottomNavigationBar(
           currentIndex: _page,
           selectedItemColor: GlobalVariables.selectedNavBarColor,
           unselectedItemColor: GlobalVariables.unselectedNavBarColor,
           backgroundColor: GlobalVariables.backgroundColor,
           iconSize: 28,
+          onTap: updatePage,
+          showUnselectedLabels: true,
           items: [
             BottomNavigationBarItem(
-                icon: Container(
-                  width: bottomBarWidth,
-                  decoration: BoxDecoration(
-                      border: Border(
-                          top: BorderSide(
-                              color: _page == 0
-                                  ? GlobalVariables.selectedNavBarColor
-                                  : GlobalVariables.backgroundColor,
-                              width: bottomBarBorderWidth))),
-                  child: const Icon(Icons.home_outlined),
-                ),
+                icon: _page == 0
+                    ? Icon(Icons.home_filled)
+                    : Icon(Icons.home_outlined),
                 label: 'Home'),
             BottomNavigationBarItem(
-                icon: Container(
-                  width: bottomBarWidth,
-                  decoration: BoxDecoration(
-                      border: Border(
-                          top: BorderSide(
-                              color: _page == 1
-                                  ? GlobalVariables.selectedNavBarColor
-                                  : GlobalVariables.backgroundColor,
-                              width: bottomBarBorderWidth))),
-                  child: const Icon(Icons.favorite_outline),
+                icon: Badge(
+                  label: const Text(
+                    '1',
+                  ),
+                  child: _page == 1
+                      ? const Icon(Icons.shopping_bag)
+                      : const Icon(Icons.shopping_bag_outlined),
+                ),
+                label: 'Giỏ hàng'),
+            BottomNavigationBarItem(
+                icon: Badge(
+                  label: const Text(
+                    '1',
+                  ),
+                  child: _page == 2
+                      ? const Icon(Icons.favorite)
+                      : const Icon(Icons.favorite_outline),
                 ),
                 label: 'Ưu thích'),
             BottomNavigationBarItem(
-                icon: Container(
-                  width: bottomBarWidth,
-                  decoration: BoxDecoration(
-                      border: Border(
-                          top: BorderSide(
-                              color: _page == 2
-                                  ? GlobalVariables.selectedNavBarColor
-                                  : GlobalVariables.backgroundColor,
-                              width: bottomBarBorderWidth))),
-                  child: const Icon(Icons.person_outline),
-                ),
+                icon: _page == 3
+                    ? const Icon(Icons.person)
+                    : const Icon(Icons.person_outline),
                 label: 'Tôi'),
           ]),
     );
