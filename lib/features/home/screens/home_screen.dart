@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:shop/constants/global_variables.dart';
 import 'package:shop/features/home/widgets/address_order.dart';
+import 'package:shop/features/home/widgets/carousels.dart';
 import 'package:shop/features/home/widgets/categories.dart';
 import 'package:shop/providers/user_provider.dart';
 
@@ -94,7 +95,8 @@ class _HomeScreenState extends State<HomeScreen> {
           SizedBox(
             height: 10,
           ),
-          Categories()
+          Categories(),
+          Carousels(),
         ],
       ),
     );
