@@ -7,18 +7,26 @@ Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
     case AuthScreen.routeName:
       return MaterialPageRoute(
-          settings: settings, builder: (_) => const AuthScreen());
+        settings: settings,
+        builder: (_) => const AuthScreen(),
+      );
     case HomeScreen.routeName:
       return MaterialPageRoute(
-          settings: settings, builder: (_) => const HomeScreen());
+        settings: settings,
+        builder: (_) => const HomeScreen(),
+      );
     case BottomBar.routeName:
       return MaterialPageRoute(
-          settings: settings, builder: (_) => const BottomBar());
+        settings: settings,
+        builder: (_) => const BottomBar(),
+      );
     default:
       return MaterialPageRoute(
-          builder: (_) => const Scaffold(
-                  body: Center(
-                child: Text("Oh no! Màn hình không tồn tại!"),
-              )));
+        builder: (_) => const Scaffold(
+          body: Center(
+            child: Text("Oh no! Màn hình không tồn tại!"),
+          ),
+        ),
+      );
   }
 }
