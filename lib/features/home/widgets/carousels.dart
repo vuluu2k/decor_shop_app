@@ -17,7 +17,10 @@ class Carousels extends StatelessWidget {
           ),
         );
       }).toList(),
-      options: CarouselOptions(),
+      options: CarouselOptions(
+        viewportFraction: 1,
+        height: 200,
+      ),
     );
   }
 }

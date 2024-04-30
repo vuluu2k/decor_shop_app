@@ -5,6 +5,7 @@ import 'package:shop/constants/global_variables.dart';
 import 'package:shop/features/home/widgets/address_order.dart';
 import 'package:shop/features/home/widgets/carousels.dart';
 import 'package:shop/features/home/widgets/categories.dart';
+import 'package:shop/features/home/widgets/deal_of_day.dart';
 import 'package:shop/providers/user_provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -97,6 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           Categories(),
           Carousels(),
+          DealOfDay()
         ],
       ),
     );
