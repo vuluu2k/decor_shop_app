@@ -17,7 +17,7 @@ class _BottomBarState extends State<BottomBar> {
   List<Widget> pages = [
     const HomeScreen(),
     const Center(
-      child: Text('Cart Page'),
+      child: Text('Blog Page'),
     ),
     const Center(
       child: Text('Favorite Page'),
@@ -46,35 +46,32 @@ class _BottomBarState extends State<BottomBar> {
           landscapeLayout: BottomNavigationBarLandscapeLayout.linear,
           items: [
             BottomNavigationBarItem(
-                icon: _page == 0
-                    ? Icon(Icons.home_filled)
-                    : Icon(Icons.home_outlined),
-                label: 'Home'),
+              icon: _page == 0
+                  ? Icon(Icons.home_filled)
+                  : Icon(Icons.home_outlined),
+              label: 'Home',
+            ),
             BottomNavigationBarItem(
-                icon: Badge(
-                  label: const Text(
-                    '1',
-                  ),
-                  child: _page == 1
-                      ? const Icon(Icons.shopping_bag)
-                      : const Icon(Icons.shopping_bag_outlined),
-                ),
-                label: 'Giỏ hàng'),
+              icon: _page == 1
+                  ? const Icon(Icons.newspaper)
+                  : const Icon(Icons.newspaper_outlined),
+              label: 'Bài viết',
+            ),
             BottomNavigationBarItem(
-                icon: Badge(
-                  label: const Text(
-                    '1',
-                  ),
-                  child: _page == 2
-                      ? const Icon(Icons.favorite)
-                      : const Icon(Icons.favorite_outline),
-                ),
-                label: 'Ưu thích'),
+              icon: Badge(
+                label: const Text('1'),
+                child: _page == 2
+                    ? const Icon(Icons.favorite)
+                    : const Icon(Icons.favorite_outline),
+              ),
+              label: 'Ưu thích',
+            ),
             BottomNavigationBarItem(
-                icon: _page == 3
-                    ? const Icon(Icons.person)
-                    : const Icon(Icons.person_outline),
-                label: 'Tôi'),
+              icon: _page == 3
+                  ? const Icon(Icons.person)
+                  : const Icon(Icons.person_outline),
+              label: 'Tôi',
+            ),
           ]),
     );
   }

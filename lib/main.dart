@@ -33,7 +33,8 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'DecorApp',
+      debugShowCheckedModeBanner: false,
+      title: 'Decor',
       theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(
               seedColor: Colors.deepPurple,
@@ -46,9 +47,9 @@ class _MyAppState extends State<MyApp> {
             iconTheme: IconThemeData(color: Colors.black),
           )),
       onGenerateRoute: (settings) => generateRoute(settings),
-      home: Provider.of<UserProvider>(context).user.token.isNotEmpty
+      home: !Provider.of<UserProvider>(context).user.token.isNotEmpty
           ? const BottomBar()
-          : const AuthScreen(),
+          : const BottomBar(),
     );
   }
 }
