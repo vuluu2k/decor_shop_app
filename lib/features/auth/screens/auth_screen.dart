@@ -41,7 +41,6 @@ class _AuthScreenState extends State<AuthScreen> {
   }
 
   void signInUser() {
-    print('in here');
     authService.signInUser(
         context: context,
         email: _emailController.text,
@@ -50,7 +49,6 @@ class _AuthScreenState extends State<AuthScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Navigator.pushNamed(context, 'Test');
     return Scaffold(
         backgroundColor: GlobalVariables.greyBackgroundCOlor,
         body: SafeArea(

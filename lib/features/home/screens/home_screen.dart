@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
+import 'package:shop/common/widgets/product_list.dart';
 import 'package:shop/constants/global_variables.dart';
 import 'package:shop/features/home/widgets/carousels.dart';
 import 'package:shop/features/home/widgets/categories.dart';
+import 'package:shop/models/product.dart';
+import 'package:shop/providers/product_provider.dart';
 import 'package:shop/providers/user_provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -104,8 +107,9 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           children: [
             Carousels(),
-            SizedBox(height: 10),
             Categories(),
+            SizedBox(height: 10),
+            ProductList(),
           ],
         ),
       ),

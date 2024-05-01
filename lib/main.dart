@@ -4,13 +4,19 @@ import 'package:shop/common/widgets/bottom_bar.dart';
 import 'package:shop/constants/global_variables.dart';
 import 'package:shop/features/auth/screens/auth_screen.dart';
 import 'package:shop/features/auth/services/auth_service.dart';
+import 'package:shop/features/home/services/category_service.dart';
+import 'package:shop/features/home/services/product_service.dart';
+import 'package:shop/providers/category_provider.dart';
+import 'package:shop/providers/product_provider.dart';
 import 'package:shop/providers/user_provider.dart';
 import 'package:shop/router.dart';
 
 void main() {
-  runApp(MultiProvider(
-      providers: [ChangeNotifierProvider(create: (context) => UserProvider())],
-      child: const MyApp()));
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (context) => UserProvider()),
+    ChangeNotifierProvider(create: (context) => CategoryProvider()),
+    ChangeNotifierProvider(create: (context) => ProductProvider()),
+  ], child: const MyApp()));
 }
 
 class MyApp extends StatefulWidget {
@@ -22,12 +28,15 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final AuthService authService = AuthService();
+  final CategoryService categoryService = CategoryService();
+  final ProductService productService = ProductService();
 
   @override
   void initState() {
     super.initState();
-    print('initState called');
-    authService.getUserData(context);
+    // authService.getUserData(context);
+    categoryService.getCategories(context: context);
+    productService.getProducts(context: context);
   }
 
   @override

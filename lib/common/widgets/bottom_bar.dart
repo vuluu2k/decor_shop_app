@@ -17,9 +17,6 @@ class _BottomBarState extends State<BottomBar> {
   List<Widget> pages = [
     const HomeScreen(),
     const Center(
-      child: Text('Blog Page'),
-    ),
-    const Center(
       child: Text('Favorite Page'),
     ),
     const AccountScreen(),
@@ -52,22 +49,16 @@ class _BottomBarState extends State<BottomBar> {
               label: 'Home',
             ),
             BottomNavigationBarItem(
-              icon: _page == 1
-                  ? const Icon(Icons.newspaper)
-                  : const Icon(Icons.newspaper_outlined),
-              label: 'Bài viết',
-            ),
-            BottomNavigationBarItem(
               icon: Badge(
                 label: const Text('1'),
-                child: _page == 2
+                child: _page == 1
                     ? const Icon(Icons.favorite)
                     : const Icon(Icons.favorite_outline),
               ),
               label: 'Ưu thích',
             ),
             BottomNavigationBarItem(
-              icon: _page == 3
+              icon: _page == 2
                   ? const Icon(Icons.person)
                   : const Icon(Icons.person_outline),
               label: 'Tôi',
