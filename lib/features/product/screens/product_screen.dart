@@ -126,7 +126,7 @@ class _ProductScreenState extends State<ProductScreen> {
                   onTap: () {},
                   child: Container(
                     alignment: Alignment.center,
-                    decoration: BoxDecoration(color: Colors.cyan[700]),
+                    decoration: BoxDecoration(color: Colors.cyan[600]),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -140,6 +140,7 @@ class _ProductScreenState extends State<ProductScreen> {
                             'Thêm giỏ hàng',
                             style: TextStyle(
                               color: Colors.white,
+                              fontWeight: FontWeight.w500,
                             ),
                           ),
                         )
@@ -161,6 +162,7 @@ class _ProductScreenState extends State<ProductScreen> {
                       'Mua hàng ngay',
                       style: TextStyle(
                         color: Colors.white,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                   ),

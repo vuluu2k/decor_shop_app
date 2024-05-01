@@ -33,37 +33,38 @@ class _BottomBarState extends State<BottomBar> {
     return Scaffold(
       body: pages[_page],
       bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _page,
-          selectedItemColor: GlobalVariables.selectedNavBarColor,
-          unselectedItemColor: GlobalVariables.unselectedNavBarColor,
-          backgroundColor: GlobalVariables.backgroundColor,
-          iconSize: 28,
-          onTap: updatePage,
-          showUnselectedLabels: true,
-          landscapeLayout: BottomNavigationBarLandscapeLayout.linear,
-          items: [
-            BottomNavigationBarItem(
-              icon: _page == 0
-                  ? Icon(Icons.home_filled)
-                  : Icon(Icons.home_outlined),
-              label: 'Home',
+        currentIndex: _page,
+        selectedItemColor: GlobalVariables.selectedNavBarColor,
+        unselectedItemColor: GlobalVariables.unselectedNavBarColor,
+        backgroundColor: Colors.white,
+        iconSize: 28,
+        onTap: updatePage,
+        showUnselectedLabels: true,
+        landscapeLayout: BottomNavigationBarLandscapeLayout.linear,
+        items: [
+          BottomNavigationBarItem(
+            icon: _page == 0
+                ? Icon(Icons.home_filled)
+                : Icon(Icons.home_outlined),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Badge(
+              label: const Text('1'),
+              child: _page == 1
+                  ? const Icon(Icons.favorite)
+                  : const Icon(Icons.favorite_outline),
             ),
-            BottomNavigationBarItem(
-              icon: Badge(
-                label: const Text('1'),
-                child: _page == 1
-                    ? const Icon(Icons.favorite)
-                    : const Icon(Icons.favorite_outline),
-              ),
-              label: 'Ưu thích',
-            ),
-            BottomNavigationBarItem(
-              icon: _page == 2
-                  ? const Icon(Icons.person)
-                  : const Icon(Icons.person_outline),
-              label: 'Tôi',
-            ),
-          ]),
+            label: 'Ưu thích',
+          ),
+          BottomNavigationBarItem(
+            icon: _page == 2
+                ? const Icon(Icons.person)
+                : const Icon(Icons.person_outline),
+            label: 'Tôi',
+          ),
+        ],
+      ),
     );
   }
 }
