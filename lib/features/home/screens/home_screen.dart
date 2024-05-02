@@ -28,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
         preferredSize: const Size.fromHeight(55),
         child: AppBar(
           flexibleSpace: Container(
-            decoration: const BoxDecoration(),
+            decoration: const BoxDecoration(color: Colors.white),
           ),
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

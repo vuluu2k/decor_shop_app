@@ -46,15 +46,17 @@ class _MyAppState extends State<MyApp> {
       title: 'Decor',
       theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(
-              seedColor: Colors.deepPurple,
-              primary: GlobalVariables.secondaryColor),
+            seedColor: Colors.deepPurple,
+            primary: GlobalVariables.selectedNavBarColor,
+          ),
           useMaterial3: true,
           scaffoldBackgroundColor: GlobalVariables.backgroundColor,
           appBarTheme: const AppBarTheme(
-            // color: GlobalVariables.appBarGradient,
+            color: Colors.white,
             elevation: 0,
-            iconTheme:
-                IconThemeData(color: GlobalVariables.selectedNavBarColor),
+            iconTheme: IconThemeData(
+              color: GlobalVariables.selectedNavBarColor,
+            ),
           )),
       onGenerateRoute: (settings) => generateRoute(settings),
       home: !Provider.of<UserProvider>(context).user.token.isNotEmpty
