@@ -28,9 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
         preferredSize: const Size.fromHeight(55),
         child: AppBar(
           flexibleSpace: Container(
-            decoration: const BoxDecoration(
-              gradient: GlobalVariables.appBarGradient,
-            ),
+            decoration: const BoxDecoration(),
           ),
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -41,6 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   height: 36,
                   child: Material(
                     borderRadius: BorderRadius.circular(borderSearchRadius),
+                    shadowColor: Colors.transparent,
                     elevation: 1,
                     child: TextFormField(
                       decoration: InputDecoration(
@@ -56,13 +55,21 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                         filled: true,
-                        fillColor: Colors.white,
+                        fillColor: GlobalVariables.backgroundColor,
                         contentPadding: const EdgeInsets.only(top: 10),
                         border: const OutlineInputBorder(
                           borderRadius: BorderRadius.all(
                             Radius.circular(borderSearchRadius),
                           ),
-                          borderSide: BorderSide.none,
+                          borderSide: BorderSide(
+                            color: GlobalVariables.selectedNavBarColor,
+                          ),
+                        ),
+                        enabledBorder: const OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(borderSearchRadius),
+                          ),
+                          borderSide: BorderSide(color: Colors.transparent),
                         ),
                         hintText: 'Tìm kiếm',
                         hintStyle: const TextStyle(
@@ -85,7 +92,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   label: Text('1'),
                   child: Icon(
                     Icons.shopping_cart_outlined,
-                    color: Colors.white,
                     size: 25,
                   ),
                 ),
@@ -95,7 +101,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 alignment: Alignment.center,
                 child: const Icon(
                   Icons.av_timer,
-                  color: Colors.white,
                   size: 25,
                 ),
               )

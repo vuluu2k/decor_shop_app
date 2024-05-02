@@ -53,7 +53,8 @@ class _MyAppState extends State<MyApp> {
           appBarTheme: const AppBarTheme(
             // color: GlobalVariables.appBarGradient,
             elevation: 0,
-            iconTheme: IconThemeData(color: Colors.black),
+            iconTheme:
+                IconThemeData(color: GlobalVariables.selectedNavBarColor),
           )),
       onGenerateRoute: (settings) => generateRoute(settings),
       home: !Provider.of<UserProvider>(context).user.token.isNotEmpty
