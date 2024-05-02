@@ -33,10 +33,10 @@ class ProductItem extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(4.0),
+            borderRadius: BorderRadius.circular(2.0),
             boxShadow: [
               BoxShadow(
-                color: Colors.grey[300]!,
+                color: Colors.grey[200]!,
                 spreadRadius: 1,
                 blurRadius: 1,
                 offset: const Offset(0.5, 0.5), // changes position of shadow
@@ -46,14 +46,15 @@ class ProductItem extends StatelessWidget {
           child: Column(
             children: [
               Image.network(
-                'https://down-vn.img.susercontent.com/file/vn-11134207-7qukw-liu0mo8ptqdu09_tn.webp',
+                '$uriImage$image',
                 width: 180,
                 height: 180,
                 fit: BoxFit.cover,
               ),
               Container(
                 alignment: Alignment.centerLeft,
-                padding: const EdgeInsets.all(10),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 child: Text(
                   name,
                   maxLines: 2,
@@ -70,7 +71,7 @@ class ProductItem extends StatelessWidget {
                 padding: const EdgeInsets.only(
                   left: 10,
                   right: 10,
-                  bottom: 10,
+                  bottom: 5,
                 ),
                 child: Text(
                   '₫$price',
