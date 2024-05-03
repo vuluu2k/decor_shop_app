@@ -4,6 +4,7 @@ import 'package:shop/common/widgets/bottom_bar.dart';
 import 'package:shop/constants/global_variables.dart';
 import 'package:shop/features/auth/screens/auth_screen.dart';
 import 'package:shop/features/auth/services/auth_service.dart';
+import 'package:shop/features/cart/services/cart_service.dart';
 import 'package:shop/features/home/services/category_service.dart';
 import 'package:shop/features/home/services/product_service.dart';
 import 'package:shop/providers/category_provider.dart';
@@ -30,13 +31,15 @@ class _MyAppState extends State<MyApp> {
   final AuthService authService = AuthService();
   final CategoryService categoryService = CategoryService();
   final ProductService productService = ProductService();
+  final CartService cartService = CartService();
 
   @override
   void initState() {
     super.initState();
-    // authService.getUserData(context);
+    authService.getUserData(context);
     categoryService.getCategories(context: context);
     productService.getProducts(context: context);
+    cartService.getCart(context: context);
   }
 
   @override
@@ -45,22 +48,23 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       title: 'Decor',
       theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.deepPurple,
-            primary: GlobalVariables.selectedNavBarColor,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.deepPurple,
+          primary: GlobalVariables.selectedNavBarColor,
+        ),
+        useMaterial3: true,
+        scaffoldBackgroundColor: GlobalVariables.backgroundColor,
+        appBarTheme: const AppBarTheme(
+          color: Colors.white,
+          elevation: 0,
+          iconTheme: IconThemeData(
+            color: GlobalVariables.selectedNavBarColor,
           ),
-          useMaterial3: true,
-          scaffoldBackgroundColor: GlobalVariables.backgroundColor,
-          appBarTheme: const AppBarTheme(
-            color: Colors.white,
-            elevation: 0,
-            iconTheme: IconThemeData(
-              color: GlobalVariables.selectedNavBarColor,
-            ),
-          )),
+        ),
+      ),
       onGenerateRoute: (settings) => generateRoute(settings),
-      home: !Provider.of<UserProvider>(context).user.token.isNotEmpty
-          ? const BottomBar()
+      home: Provider.of<UserProvider>(context).user.id == -1
+          ? const AuthScreen()
           : const BottomBar(),
     );
   }

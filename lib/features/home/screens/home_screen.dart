@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
+import 'package:shop/common/widgets/cart_button.dart';
 import 'package:shop/common/widgets/product_list.dart';
 import 'package:shop/constants/global_variables.dart';
 import 'package:shop/features/home/widgets/carousels.dart';
@@ -81,21 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
-              Container(
-                color: Colors.transparent,
-                alignment: Alignment.center,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                ),
-                child: const Badge(
-                  backgroundColor: Color.fromARGB(255, 238, 77, 45),
-                  label: Text('1'),
-                  child: Icon(
-                    Icons.shopping_cart_outlined,
-                    size: 25,
-                  ),
-                ),
-              ),
+              const CartButton(),
               Container(
                 color: Colors.transparent,
                 alignment: Alignment.center,

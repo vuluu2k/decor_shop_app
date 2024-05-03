@@ -10,17 +10,10 @@ class TopButtons extends StatelessWidget {
       children: [
         Row(
           children: [
-            AccountButton(text: 'Đơn hàng', onTap: () {}),
-            AccountButton(text: 'Ưu thích', onTap: () {}),
+            AccountButton(text: 'Đổi mật khẩu', onTap: () {}),
+            AccountButton(text: 'Đăng xuất', onTap: () {}),
           ],
         ),
-        const SizedBox(
-          height: 10,
-        ),
-        Row(children: [
-          AccountButton(text: 'Ưu thích', onTap: () {}),
-          AccountButton(text: 'Đăng xuất', onTap: () {}),
-        ])
       ],
     );
   }

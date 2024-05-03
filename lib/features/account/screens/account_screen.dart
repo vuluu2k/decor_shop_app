@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:shop/constants/global_variables.dart';
-import 'package:shop/features/account/widgets/below_app_bar.dart';
+import 'package:provider/provider.dart';
 import 'package:shop/features/account/widgets/orders.dart';
 import 'package:shop/features/account/widgets/top_buttons.dart';
+import 'package:shop/providers/user_provider.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({super.key});
@@ -15,40 +14,28 @@ class AccountScreen extends StatefulWidget {
 class _AccountScreenState extends State<AccountScreen> {
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<UserProvider>(context).user;
     return Scaffold(
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(50),
           child: AppBar(
             flexibleSpace: Container(
-              decoration: const BoxDecoration(
-                gradient: GlobalVariables.appBarGradient,
-              ),
+              decoration: const BoxDecoration(),
             ),
             title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
                   alignment: Alignment.topLeft,
-                  child: Image.asset('assets/images/amazon_in.png',
-                      width: 120, height: 45, color: Colors.black),
+                  child:
+                      Text(user.fullName, style: const TextStyle(fontSize: 20)),
                 ),
-                Container(
-                  padding: const EdgeInsets.only(left: 15, right: 15),
-                  child: const Row(children: [
-                    Padding(
-                      padding: EdgeInsets.only(right: 15),
-                      child: Icon(Icons.notifications_outlined),
-                    ),
-                    Icon(Icons.search)
-                  ]),
-                )
               ],
             ),
           ),
         ),
         body: const Column(
           children: [
-            BelowAppBar(),
             SizedBox(
               height: 10,
             ),

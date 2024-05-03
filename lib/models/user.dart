@@ -2,44 +2,69 @@
 import 'dart:convert';
 
 class User {
-  final String id;
+  final int id;
+  final String modifiedDate;
+  final String createdDate;
+  final bool deleted;
   final String email;
-  final String name;
+  final String fullName;
   final String password;
+  final int role;
+  final bool gioiTinh;
   final String address;
-  final String type;
-  final String token;
+  final String sdt;
+  final String avatar;
+  final int status;
 
-  User(
-      {required this.id,
-      required this.email,
-      required this.name,
-      required this.password,
-      required this.address,
-      required this.type,
-      required this.token});
+  User({
+    required this.id,
+    required this.modifiedDate,
+    required this.createdDate,
+    required this.deleted,
+    required this.email,
+    required this.fullName,
+    required this.password,
+    required this.role,
+    required this.gioiTinh,
+    required this.address,
+    required this.sdt,
+    required this.avatar,
+    required this.status,
+  });
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'id': id,
+      'modifiedDate': modifiedDate,
+      'createdDate': createdDate,
+      'deleted': deleted,
       'email': email,
-      'name': name,
+      'fullName': fullName,
       'password': password,
+      'role': role,
+      'gioiTinh': gioiTinh,
       'address': address,
-      'type': type,
-      'token': token,
+      'sdt': sdt,
+      'avatar': avatar,
+      'status': status,
     };
   }
 
   factory User.fromMap(Map<String, dynamic> map) {
     return User(
-      id: map['_id'] as String,
-      email: map['email'] as String,
-      name: map['name'] as String,
-      password: map['password'] as String,
-      address: map['address'] as String,
-      type: map['type'] as String,
-      token: map['token'] as String,
+      id: map['id']?.toInt() ?? -1,
+      modifiedDate: map['modifiedDate']?.toString() ?? '',
+      createdDate: map['createdDate']?.toString() ?? '',
+      deleted: map['deleted'] ?? false,
+      email: map['email']?.toString() ?? '',
+      fullName: map['fullName']?.toString() ?? '',
+      password: map['password']?.toString() ?? '',
+      role: map['role']?.toInt() ?? 0,
+      gioiTinh: map['gioiTinh'] ?? false,
+      address: map['address']?.toString() ?? '',
+      sdt: map['sdt']?.toString() ?? '',
+      avatar: map['avatar']?.toString() ?? '',
+      status: map['status']?.toInt() ?? 0,
     );
   }
 

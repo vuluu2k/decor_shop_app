@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:shop/common/widgets/cart_button.dart';
 import 'package:shop/common/widgets/count_item.dart';
 import 'package:shop/constants/global_variables.dart';
+import 'package:shop/features/cart/services/cart_service.dart';
 import 'package:shop/models/product.dart';
 
 class ProductScreen extends StatefulWidget {
@@ -15,17 +17,24 @@ class ProductScreen extends StatefulWidget {
 }
 
 class _ProductScreenState extends State<ProductScreen> {
+  final CartService cartService = CartService();
   @override
   Widget build(BuildContext context) {
     final product = widget.product;
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          product.name,
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w500,
-          ),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              product.name,
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            const CartButton()
+          ],
         ),
       ),
       body: Column(
@@ -144,6 +153,17 @@ class _ProductScreenState extends State<ProductScreen> {
                             });
                           }
 
+                          void addToCart() {
+                            cartService.addToCart(
+                              context: context,
+                              idDecor: product.id,
+                              quantity: count,
+                              onSuccess: () {
+                                Navigator.pop(context);
+                              },
+                            );
+                          }
+
                           return SizedBox(
                             height: 150,
                             child: Center(
@@ -186,7 +206,7 @@ class _ProductScreenState extends State<ProductScreen> {
                                     Container(
                                       margin: const EdgeInsets.only(top: 20),
                                       child: InkWell(
-                                        onTap: () {},
+                                        onTap: addToCart,
                                         child: Container(
                                           alignment: Alignment.center,
                                           decoration: const BoxDecoration(

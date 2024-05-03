@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shop/constants/global_variables.dart';
 
 class CustomButton extends StatelessWidget {
   final String text;
@@ -8,12 +9,17 @@ class CustomButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-        child: Text(
-          text,
+      onPressed: onTap,
+      style: ElevatedButton.styleFrom(
+        minimumSize: const Size(double.infinity, 50),
+        backgroundColor: GlobalVariables.selectedNavBarColor,
+      ),
+      child: Text(
+        text,
+        style: const TextStyle(
+          color: Colors.white,
         ),
-        onPressed: onTap,
-        style: ElevatedButton.styleFrom(
-          minimumSize: const Size(double.infinity, 50),
-        ));
+      ),
+    );
   }
 }

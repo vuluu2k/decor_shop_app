@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -15,30 +17,49 @@ class AuthService {
   void signUpUser({
     required BuildContext context,
     required String email,
-    required String password,
     required String name,
+    required String phone,
+    required String password,
+    required String rePassword,
+    required String address,
+    required VoidCallback onSuccess,
   }) async {
     try {
-      User user = User(
-          id: '',
-          email: email,
-          name: name,
-          password: password,
-          address: '',
-          type: '',
-          token: '');
+      if (password != rePassword) {
+        showSnackBar(context, "Mật khẩu nhập lại không chính xác!");
+        return;
+      }
 
-      http.Response res = await http.post(Uri.parse('$uri/api/signup'),
-          body: user.toJson(),
-          headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8',
-          });
+      User user = User(
+        id: -1,
+        modifiedDate: '',
+        createdDate: '',
+        deleted: false,
+        email: email,
+        fullName: name,
+        password: password,
+        role: 1,
+        gioiTinh: true,
+        address: address,
+        sdt: phone,
+        avatar: '',
+        status: 1,
+      );
+
+      http.Response res = await http.post(
+        Uri.parse('$uri/api/nguoi-dung/create'),
+        body: user.toJson(),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
 
       httpErrorHandle(
         response: res,
         context: context,
         onSuccess: () {
-          showSnackBar(context, "Account created! Login with the same credent");
+          showSnackBar(context, "Tạo tài khoản thành công!");
+          onSuccess();
         },
       );
     } catch (e) {
@@ -52,21 +73,27 @@ class AuthService {
     required String password,
   }) async {
     try {
-      http.Response res = await http.post(Uri.parse('$uri/api/signin'),
-          body: jsonEncode({'email': email, 'password': password}),
-          headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8',
-          });
+      http.Response res = await http.post(
+        Uri.parse('$uri/api/nguoi-dung/login'),
+        body: jsonEncode({'username': email, 'password': password}),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
 
       httpErrorHandle(
         response: res,
         context: context,
         onSuccess: () async {
           SharedPreferences prefs = await SharedPreferences.getInstance();
-          await prefs.setString('x-auth-token', jsonDecode(res.body)['token']);
-          Provider.of<UserProvider>(context, listen: false).setUser(res.body);
-          Navigator.pushNamedAndRemoveUntil(
-              context, BottomBar.routeName, (route) => false);
+          print(jsonDecode(res.body)['user']['userId']);
+          await prefs.setString('token', jsonDecode(res.body)['result']);
+          await prefs.setString(
+            'user_id',
+            jsonDecode(res.body)['user']['userId'].toString(),
+          );
+
+          getUserData(context);
         },
       );
     } catch (e) {
@@ -79,30 +106,22 @@ class AuthService {
   ) async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      String? token = prefs.getString('x-auth-token');
+      String? token = prefs.getString('token');
+      String? userId = prefs.getString('user_id');
 
-      if (token == null) {
-        prefs.setString('x-auth-token', '');
-      }
+      if (token == null) return;
 
-      var tokenRes = await http.post(Uri.parse('$uri/tokenIsValid'),
-          headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8',
-            'x-auth-token': token!
-          });
+      http.Response res = await http.get(
+        Uri.parse('$uri/api/nguoi-dung/get/$userId'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $token'
+        },
+      );
 
-      var response = jsonDecode(tokenRes.body);
-
-      if (response) {
-        http.Response res = await http.get(Uri.parse('$uri/'),
-            headers: <String, String>{
-              'Content-Type': 'application/json; charset=UTF-8',
-              'x-auth-token': token
-            });
-
-        var userProvider = Provider.of<UserProvider>(context, listen: false);
-
-        userProvider.setUser(res.body);
+      if (res.statusCode == 200) {
+        Provider.of<UserProvider>(context, listen: false)
+            .setUser(jsonEncode(jsonDecode(res.body)['data'][0]));
       }
     } catch (e) {
       showSnackBar(context, e.toString());

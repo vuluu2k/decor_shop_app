@@ -16,13 +16,16 @@ class AuthScreen extends StatefulWidget {
 }
 
 class _AuthScreenState extends State<AuthScreen> {
-  Auth _auth = Auth.signup;
+  Auth _auth = Auth.signin;
   final _signUpFormKey = GlobalKey<FormState>();
   final _signInFormKey = GlobalKey<FormState>();
   final AuthService authService = AuthService();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _addressController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _rePasswordController = TextEditingController();
 
   @override
   void dispose() {
@@ -34,10 +37,19 @@ class _AuthScreenState extends State<AuthScreen> {
 
   void signUpUser() {
     authService.signUpUser(
-        context: context,
-        email: _emailController.text,
-        password: _passwordController.text,
-        name: _nameController.text);
+      context: context,
+      email: _emailController.text,
+      password: _passwordController.text,
+      name: _nameController.text,
+      phone: _phoneController.text,
+      address: _addressController.text,
+      rePassword: _rePasswordController.text,
+      onSuccess: () {
+        setState(() {
+          _auth = Auth.signin;
+        });
+      },
+    );
   }
 
   void signInUser() {
@@ -50,112 +62,143 @@ class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: GlobalVariables.greyBackgroundCOlor,
+        backgroundColor: Colors.white,
         body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text("Xin chào",
-                    style:
-                        TextStyle(fontSize: 22, fontWeight: FontWeight.w400)),
-                ListTile(
-                  tileColor: _auth == Auth.signup
-                      ? GlobalVariables.backgroundColor
-                      : GlobalVariables.greyBackgroundCOlor,
-                  title: const Text('Tạo tài khoản mới',
-                      style: TextStyle(fontWeight: FontWeight.bold)),
-                  leading: Radio(
-                    activeColor: GlobalVariables.secondaryColor,
-                    value: Auth.signup,
-                    groupValue: _auth,
-                    onChanged: (Auth? value) {
-                      setState(() {
-                        _auth = value!;
-                      });
-                    },
-                  ),
-                ),
-                if (_auth == Auth.signup)
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    color: GlobalVariables.backgroundColor,
-                    child: Form(
-                        key: _signUpFormKey,
-                        child: Column(
-                          children: [
-                            CustomTextField(
-                              controller: _nameController,
-                              hintText: "Tên người dùng",
-                            ),
-                            const SizedBox(height: 10),
-                            CustomTextField(
-                              controller: _emailController,
-                              hintText: "Email",
-                            ),
-                            const SizedBox(height: 10),
-                            CustomTextField(
-                              controller: _passwordController,
-                              hintText: "Mật khẩu",
-                            ),
-                            const SizedBox(height: 10),
-                            CustomButton(
-                                text: 'Tạo tài khoản',
+          child: SingleChildScrollView(
+            child: SizedBox(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      padding: EdgeInsets.symmetric(vertical: 20),
+                      child: const Text(
+                        'Decor Shop',
+                        style: TextStyle(
+                          color: GlobalVariables.selectedNavBarColor,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 24,
+                        ),
+                      ),
+                    ),
+                    if (_auth == Auth.signup)
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        child: Form(
+                          key: _signUpFormKey,
+                          child: Column(
+                            children: [
+                              CustomTextField(
+                                controller: _nameController,
+                                hintText: "Tên người dùng",
+                              ),
+                              const SizedBox(height: 10),
+                              CustomTextField(
+                                controller: _emailController,
+                                hintText: "Email",
+                                keyboardType: TextInputType.emailAddress,
+                              ),
+                              const SizedBox(height: 10),
+                              CustomTextField(
+                                controller: _phoneController,
+                                hintText: "Số điện thoại",
+                                keyboardType: TextInputType.phone,
+                              ),
+                              const SizedBox(height: 10),
+                              CustomTextField(
+                                controller: _addressController,
+                                hintText: "Địa chỉ",
+                                keyboardType: TextInputType.text,
+                              ),
+                              const SizedBox(height: 10),
+                              CustomTextField(
+                                controller: _passwordController,
+                                hintText: "Mật khẩu",
+                                keyboardType: TextInputType.visiblePassword,
+                                obscureText: true,
+                              ),
+                              const SizedBox(height: 10),
+                              CustomTextField(
+                                controller: _rePasswordController,
+                                hintText: "Nhập lại mật khẩu",
+                                keyboardType: TextInputType.visiblePassword,
+                                obscureText: true,
+                              ),
+                              const SizedBox(height: 10),
+                              CustomButton(
+                                text: 'Đăng ký',
                                 onTap: () {
                                   if (_signUpFormKey.currentState!.validate()) {
                                     signUpUser();
                                   }
-                                })
-                          ],
-                        )),
-                  ),
-                ListTile(
-                  tileColor: _auth == Auth.signin
-                      ? GlobalVariables.backgroundColor
-                      : GlobalVariables.greyBackgroundCOlor,
-                  title: const Text('Đăng nhập',
-                      style: TextStyle(fontWeight: FontWeight.bold)),
-                  leading: Radio(
-                    activeColor: GlobalVariables.secondaryColor,
-                    value: Auth.signin,
-                    groupValue: _auth,
-                    onChanged: (Auth? value) {
-                      setState(() {
-                        _auth = value!;
-                      });
-                    },
-                  ),
-                ),
-                if (_auth == Auth.signin)
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    color: GlobalVariables.backgroundColor,
-                    child: Form(
-                        key: _signInFormKey,
-                        child: Column(
-                          children: [
-                            CustomTextField(
-                              controller: _emailController,
-                              hintText: "Tên người dùng / email",
-                            ),
-                            const SizedBox(height: 10),
-                            CustomTextField(
-                              controller: _passwordController,
-                              hintText: "Mật khẩu",
-                            ),
-                            const SizedBox(height: 10),
-                            CustomButton(
+                                },
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Text('Bạn đã có tài khoản?'),
+                                  TextButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        _auth = Auth.signin;
+                                      });
+                                    },
+                                    child: Text('Đăng nhập'),
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    if (_auth == Auth.signin)
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        child: Form(
+                          key: _signInFormKey,
+                          child: Column(
+                            children: [
+                              CustomTextField(
+                                controller: _emailController,
+                                hintText: "Tên người dùng / email",
+                              ),
+                              const SizedBox(height: 10),
+                              CustomTextField(
+                                controller: _passwordController,
+                                hintText: "Mật khẩu",
+                              ),
+                              const SizedBox(height: 10),
+                              CustomButton(
                                 text: 'Đăng nhập',
                                 onTap: () {
                                   if (_signInFormKey.currentState!.validate()) {
                                     signInUser();
                                   }
-                                })
-                          ],
-                        )),
-                  ),
-              ],
+                                },
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Text('Bạn chưa có tài khoản?'),
+                                  TextButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        _auth = Auth.signup;
+                                      });
+                                    },
+                                    child: Text('Đăng ký'),
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+              ),
             ),
           ),
         ));
