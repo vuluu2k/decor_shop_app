@@ -127,4 +127,22 @@ class AuthService {
       showSnackBar(context, e.toString());
     }
   }
+
+  void changePassword({
+    required BuildContext context,
+    required String password,
+    required String rePassword,
+  }) async {
+    try {
+      if (password != rePassword) {
+        showSnackBar(context, "Mật khẩu không khớp!");
+        return;
+      }
+
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? token = prefs.getString('token');
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
+  }
 }

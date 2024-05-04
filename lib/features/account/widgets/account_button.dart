@@ -26,7 +26,7 @@ class AccountButton extends StatelessWidget {
             ),
           ),
         ),
-        height: 40,
+        height: 58,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,

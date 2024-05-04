@@ -73,7 +73,7 @@ class _AccountScreenState extends State<AccountScreen> {
           SizedBox(
             height: 20,
           ),
-          Orders()
+          // Orders()
         ],
       ),
     );
