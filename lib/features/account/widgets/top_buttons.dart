@@ -6,15 +6,29 @@ class TopButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          children: [
-            AccountButton(text: 'Đổi mật khẩu', onTap: () {}),
-            AccountButton(text: 'Đăng xuất', onTap: () {}),
-          ],
-        ),
-      ],
+    return Container(
+      decoration: const BoxDecoration(
+        color: Colors.white,
+      ),
+      child: Column(
+        children: [
+          AccountButton(
+            text: 'Hoá đơn',
+            onTap: () {},
+            icon: Icons.payment_outlined,
+          ),
+          AccountButton(
+            text: 'Đổi mật khẩu',
+            onTap: () {},
+            icon: Icons.lock_outlined,
+          ),
+          AccountButton(
+            text: 'Đăng xuất',
+            onTap: () {},
+            icon: Icons.logout_outlined,
+          ),
+        ],
+      ),
     );
   }
 }

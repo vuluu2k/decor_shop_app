@@ -3,27 +3,44 @@ import 'package:flutter/material.dart';
 class AccountButton extends StatelessWidget {
   final String text;
   final VoidCallback onTap;
-  const AccountButton({super.key, required this.text, required this.onTap});
+  final IconData icon;
+  const AccountButton({
+    super.key,
+    required this.text,
+    required this.onTap,
+    required this.icon,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
+    return InkWell(
+      onTap: onTap,
       child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 10),
+        alignment: Alignment.centerLeft,
+        padding: const EdgeInsets.symmetric(horizontal: 15),
+        decoration: const BoxDecoration(
+          border: Border(
+            bottom: BorderSide(
+              color: Colors.black12,
+              width: 1,
+            ),
+          ),
+        ),
         height: 40,
-        decoration: BoxDecoration(
-            border: Border.all(color: Colors.white, width: 0.0),
-            borderRadius: BorderRadius.circular(50),
-            color: Colors.white),
-        child: OutlinedButton(
-          style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.black12.withOpacity(0.03),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(50))),
-          onPressed: () {},
-          child: Text(text,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Icon(icon, color: Colors.black, size: 18),
+            const SizedBox(width: 10),
+            Text(
+              text,
               style: const TextStyle(
-                  color: Colors.black, fontWeight: FontWeight.normal)),
+                color: Colors.black,
+                fontWeight: FontWeight.normal,
+              ),
+            ),
+          ],
         ),
       ),
     );
