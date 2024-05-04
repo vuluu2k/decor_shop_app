@@ -108,3 +108,29 @@ class Products {
   factory Products.fromJson(String source) =>
       Products.fromMap(json.decode(source) as Map<String, dynamic>);
 }
+
+class ProductQuantity {
+  final Product product;
+  final int quantity;
+
+  ProductQuantity({required this.product, required this.quantity});
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'product': product.toMap(),
+      'quantity': quantity,
+    };
+  }
+
+  factory ProductQuantity.fromMap(Map<String, dynamic> map) {
+    return ProductQuantity(
+      product: Product.fromMap(map['product'] as Map<String, dynamic>),
+      quantity: map['quantity'] as int,
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory ProductQuantity.fromJson(String source) =>
+      ProductQuantity.fromMap(json.decode(source) as Map<String, dynamic>);
+}

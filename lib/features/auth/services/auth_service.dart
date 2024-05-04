@@ -132,6 +132,7 @@ class AuthService {
     required BuildContext context,
     required String password,
     required String rePassword,
+    required VoidCallback onSuccess,
   }) async {
     try {
       if (password != rePassword) {
@@ -141,6 +142,20 @@ class AuthService {
 
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String? token = prefs.getString('token');
+
+      http.Response res = await http.post(
+        Uri.parse('$uri/api/nguoi-dung/change-password'),
+        body: jsonEncode({'password': password}),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $token'
+        },
+      );
+
+      if (res.statusCode == 200) {
+        showSnackBar(context, 'Đổi mật khẩu thành công!');
+        onSuccess();
+      }
     } catch (e) {
       showSnackBar(context, e.toString());
     }

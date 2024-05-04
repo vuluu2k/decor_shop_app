@@ -60,6 +60,11 @@ class _MyAppState extends State<MyApp> {
           iconTheme: IconThemeData(
             color: GlobalVariables.selectedNavBarColor,
           ),
+          titleTextStyle: TextStyle(
+            color: Colors.black,
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+          ),
         ),
       ),
       onGenerateRoute: (settings) => generateRoute(settings),

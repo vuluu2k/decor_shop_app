@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:shop/common/widgets/custom_button.dart';
 import 'package:shop/common/widgets/custom_textfield.dart';
 import 'package:shop/constants/global_variables.dart';

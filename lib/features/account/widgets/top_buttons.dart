@@ -2,12 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:shop/common/widgets/custom_button.dart';
 import 'package:shop/common/widgets/custom_textfield.dart';
 import 'package:shop/features/account/widgets/account_button.dart';
+import 'package:shop/features/auth/services/auth_service.dart';
 
 class TopButtons extends StatelessWidget {
   const TopButtons({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController passwordController = TextEditingController();
+    final TextEditingController rePasswordController = TextEditingController();
+
+    final changePasswordForm = GlobalKey<FormState>();
+    final AuthService authService = AuthService();
     return Container(
       decoration: const BoxDecoration(
         color: Colors.white,
@@ -25,11 +31,6 @@ class TopButtons extends StatelessWidget {
               showModalBottomSheet(
                 context: context,
                 builder: (context) {
-                  final TextEditingController _passwordController =
-                      TextEditingController();
-                  final TextEditingController _rePasswordController =
-                      TextEditingController();
-
                   return StatefulBuilder(builder: (context, setState) {
                     return Container(
                       padding: const EdgeInsets.all(20),
@@ -47,23 +48,38 @@ class TopButtons extends StatelessWidget {
                             ),
                           ),
                           Form(
+                            key: changePasswordForm,
                             child: Column(
                               children: [
                                 CustomTextField(
-                                  controller: _passwordController,
+                                  controller: passwordController,
                                   hintText: "Mật khẩu mới",
+                                  keyboardType: TextInputType.visiblePassword,
                                   obscureText: true,
                                 ),
                                 const SizedBox(height: 10),
                                 CustomTextField(
-                                  controller: _rePasswordController,
+                                  controller: rePasswordController,
                                   hintText: "Xác nhận mật khẩu mới",
+                                  keyboardType: TextInputType.visiblePassword,
                                   obscureText: true,
                                 ),
                                 const SizedBox(height: 10),
                                 CustomButton(
                                   text: 'Đổi mật khẩu',
-                                  onTap: () {},
+                                  onTap: () {
+                                    if (changePasswordForm.currentState!
+                                        .validate()) {
+                                      authService.changePassword(
+                                        context: context,
+                                        password: passwordController.text,
+                                        rePassword: rePasswordController.text,
+                                        onSuccess: () {
+                                          Navigator.pop(context);
+                                        },
+                                      );
+                                    }
+                                  },
                                 )
                               ],
                             ),

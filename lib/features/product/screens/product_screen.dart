@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:shop/common/widgets/cart_button.dart';
 import 'package:shop/common/widgets/count_item.dart';
 import 'package:shop/constants/global_variables.dart';
+import 'package:shop/features/bill/screen/order_screen.dart';
 import 'package:shop/features/cart/services/cart_service.dart';
 import 'package:shop/models/product.dart';
 
@@ -18,6 +19,15 @@ class ProductScreen extends StatefulWidget {
 
 class _ProductScreenState extends State<ProductScreen> {
   final CartService cartService = CartService();
+
+  void buyNow() {
+    Navigator.pushNamed(
+      context,
+      OrderScreen.routeName,
+      arguments: [ProductQuantity(product: widget.product, quantity: 1)],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final product = widget.product;
@@ -28,10 +38,6 @@ class _ProductScreenState extends State<ProductScreen> {
           children: [
             Text(
               product.name,
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w500,
-              ),
             ),
             const CartButton()
           ],
@@ -124,13 +130,13 @@ class _ProductScreenState extends State<ProductScreen> {
           ),
         ],
       ),
-      bottomNavigationBar: SizedBox(
+      bottomSheet: SizedBox(
         height: 50,
         child: Row(
           children: [
             Expanded(
               flex: 1,
-              child: GestureDetector(
+              child: InkWell(
                 onTap: () {
                   showModalBottomSheet(
                     context: context,
@@ -261,8 +267,8 @@ class _ProductScreenState extends State<ProductScreen> {
             ),
             Expanded(
               flex: 2,
-              child: GestureDetector(
-                onTap: () {},
+              child: InkWell(
+                onTap: buyNow,
                 child: Container(
                   alignment: Alignment.center,
                   decoration: const BoxDecoration(
