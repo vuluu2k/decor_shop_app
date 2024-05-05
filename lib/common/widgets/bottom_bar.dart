@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shop/constants/global_variables.dart';
 import 'package:shop/features/account/screens/account_screen.dart';
+import 'package:shop/features/favorite/screens/favorite_screen.dart';
 import 'package:shop/features/home/screens/home_screen.dart';
+import 'package:shop/providers/favorite_provider.dart';
 
 class BottomBar extends StatefulWidget {
   static const String routeName = '/actual-home';
@@ -16,9 +19,7 @@ class _BottomBarState extends State<BottomBar> {
 
   List<Widget> pages = [
     const HomeScreen(),
-    const Center(
-      child: Text('Favorite Page'),
-    ),
+    const FavoriteScreen(),
     const AccountScreen(),
   ];
 
@@ -30,6 +31,7 @@ class _BottomBarState extends State<BottomBar> {
 
   @override
   Widget build(BuildContext context) {
+    final favorites = Provider.of<FavoriteProvider>(context).favorites;
     return Scaffold(
       body: pages[_page],
       bottomNavigationBar: BottomNavigationBar(
@@ -50,7 +52,8 @@ class _BottomBarState extends State<BottomBar> {
           ),
           BottomNavigationBarItem(
             icon: Badge(
-              label: const Text('1'),
+              label: Text('${favorites.content.length}'),
+              backgroundColor: GlobalVariables.selectedNavBarColor,
               child: _page == 1
                   ? const Icon(Icons.favorite)
                   : const Icon(Icons.favorite_outline),

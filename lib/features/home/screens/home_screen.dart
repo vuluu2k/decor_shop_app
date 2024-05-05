@@ -22,6 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserProvider>(context).user;
+    final products = Provider.of<ProductProvider>(context).products;
     const borderSearchRadius = 4.0;
 
     return Scaffold(
@@ -36,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Expanded(
-                child: Container(
+                child: SizedBox(
                   height: 36,
                   child: Material(
                     borderRadius: BorderRadius.circular(borderSearchRadius),
@@ -83,25 +84,19 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               const CartButton(),
-              Container(
-                color: Colors.transparent,
-                alignment: Alignment.center,
-                child: const Icon(
-                  Icons.av_timer,
-                  size: 25,
-                ),
-              )
             ],
           ),
         ),
       ),
-      body: const SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Column(
           children: [
-            Carousels(),
-            Categories(),
-            SizedBox(height: 10),
-            ProductList(),
+            const Carousels(),
+            const Categories(),
+            const SizedBox(height: 10),
+            ProductList(
+              products: products,
+            ),
           ],
         ),
       ),

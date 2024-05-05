@@ -3,6 +3,8 @@ import 'package:shop/common/widgets/custom_button.dart';
 import 'package:shop/common/widgets/custom_textfield.dart';
 import 'package:shop/features/account/widgets/account_button.dart';
 import 'package:shop/features/auth/services/auth_service.dart';
+import 'package:shop/features/bill/screen/bill_screen.dart';
+import 'package:shop/features/cart/screens/cart_screen.dart';
 
 class TopButtons extends StatelessWidget {
   const TopButtons({super.key});
@@ -21,8 +23,24 @@ class TopButtons extends StatelessWidget {
       child: Column(
         children: [
           AccountButton(
+            text: 'Thông tin cá nhân',
+            onTap: () {
+              Navigator.pushNamed(context, CartScreen.routeName);
+            },
+            icon: Icons.info_outlined,
+          ),
+          AccountButton(
+            text: 'Giỏ hàng',
+            onTap: () {
+              Navigator.pushNamed(context, CartScreen.routeName);
+            },
+            icon: Icons.shopping_cart_outlined,
+          ),
+          AccountButton(
             text: 'Hoá đơn',
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(context, BillScreen.routeName);
+            },
             icon: Icons.payment_outlined,
           ),
           AccountButton(

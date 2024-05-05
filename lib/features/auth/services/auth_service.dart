@@ -86,7 +86,6 @@ class AuthService {
         context: context,
         onSuccess: () async {
           SharedPreferences prefs = await SharedPreferences.getInstance();
-          print(jsonDecode(res.body)['user']['userId']);
           await prefs.setString('token', jsonDecode(res.body)['result']);
           await prefs.setString(
             'user_id',

@@ -4,7 +4,6 @@ class Category {
   final int id;
   final String modifiedDate;
   final String createdDate;
-  final bool deleted;
   final String name;
   final String image;
   final int status;
@@ -13,7 +12,6 @@ class Category {
     required this.id,
     required this.modifiedDate,
     required this.createdDate,
-    required this.deleted,
     required this.name,
     required this.image,
     required this.status,
@@ -24,7 +22,6 @@ class Category {
       'id': id,
       'modifiedDate': modifiedDate,
       'createdDate': createdDate,
-      'deleted': deleted,
       'name': name,
       'image': image,
       'status': status,
@@ -36,7 +33,6 @@ class Category {
       id: map['id']?.toInt() ?? '',
       modifiedDate: map['modifiedDate']?.toString() ?? '',
       createdDate: map['createdDate']?.toString() ?? '',
-      deleted: map['deleted'] ?? false,
       name: map['name']?.toString() ?? '',
       image: map['image']?.toString() ??
           'https://down-vn.img.susercontent.com/file/687f3967b7c2fe6a134a2c11894eea4b_tn',

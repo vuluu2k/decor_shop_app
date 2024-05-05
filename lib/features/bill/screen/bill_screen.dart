@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class BillScreen extends StatefulWidget {
+  static const String routeName = '/bill-screen';
   const BillScreen({super.key});
 
   @override

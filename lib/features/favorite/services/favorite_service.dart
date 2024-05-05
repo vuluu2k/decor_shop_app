@@ -6,51 +6,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shop/constants/global_variables.dart';
 import 'package:shop/constants/utils.dart';
 import 'package:http/http.dart' as http;
-import 'package:shop/providers/cart_provider.dart';
+import 'package:shop/providers/favorite_provider.dart';
 
-class CartService {
-  void addToCart({
-    required BuildContext context,
-    required int idDecor,
-    required int quantity,
-    required VoidCallback onSuccess,
-  }) async {
+class FavoriteService {
+  Future<void> getFavorite({required BuildContext context}) async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String? token = prefs.getString('token');
       String? userId = prefs.getString('user_id');
-
-      http.Response res = await http.post(
-        Uri.parse('$uri/api/cart/post'),
-        body: jsonEncode({
-          'idDecor': idDecor,
-          'number': quantity,
-          'idUser': userId,
-        }),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-          'Authorization': 'Bearer $token',
-        },
-      );
-
-      if (res.statusCode == 200) {
-        await getCart(context: context);
-        showSnackBar(context, 'Đã thêm vào giỏ hàng');
-        onSuccess();
-      }
-    } catch (e) {
-      showSnackBar(context, e.toString());
-    }
-  }
-
-  Future<void> getCart({required BuildContext context}) async {
-    try {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      String? token = prefs.getString('token');
-      String? userId = prefs.getString('user_id');
-
       http.Response res = await http.get(
-        Uri.parse('$uri/api/cart/get/cartbyuser'),
+        Uri.parse('$uri/api/favorite/page?filter=idUser:$userId'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Authorization': 'Bearer $token',
@@ -58,31 +23,59 @@ class CartService {
       );
 
       if (res.statusCode == 200) {
-        var cartProvider = Provider.of<CartProvider>(context, listen: false);
-        cartProvider.setCarts(res.body);
+        var favoriteProvider =
+            Provider.of<FavoriteProvider>(context, listen: false);
+        favoriteProvider.setFavorites(res.body);
       }
     } catch (e) {
       showSnackBar(context, e.toString());
     }
   }
 
-  Future<void> updateCart({
+  Future<void> addToFavorite({
     required BuildContext context,
-    required int idCart,
     required int idDecor,
-    required int number,
   }) async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String? token = prefs.getString('token');
       String? userId = prefs.getString('user_id');
 
-      http.Response res = await http.put(
-        Uri.parse('$uri/api/cart/put/$idCart'),
+      http.Response res = await http.post(Uri.parse('$uri/api/favorite/post'),
+          body: jsonEncode({
+            'idDecor': idDecor,
+            'idUser': userId,
+          }),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Bearer $token',
+          });
+
+      print('add');
+      print(res.body);
+      if (res.statusCode == 200) {
+        await getFavorite(context: context);
+      }
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
+  }
+
+  Future<void> removeFromFavorite({
+    required BuildContext context,
+    required int idDecor,
+    required int idFavorite,
+  }) async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? token = prefs.getString('token');
+      String? userId = prefs.getString('user_id');
+
+      http.Response res = await http.delete(
+        Uri.parse('$uri/api/favorite/del/$idFavorite'),
         body: jsonEncode({
           'idDecor': idDecor,
           'idUser': userId,
-          'number': number,
         }),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
@@ -90,8 +83,10 @@ class CartService {
         },
       );
 
+      print('remove');
+      print(res.statusCode);
       if (res.statusCode == 200) {
-        await getCart(context: context);
+        await getFavorite(context: context);
       }
     } catch (e) {
       showSnackBar(context, e.toString());

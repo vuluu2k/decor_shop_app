@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop/constants/global_variables.dart';
-import 'package:shop/features/category/screen/category_screen.dart';
+import 'package:shop/features/category/screens/category_screen.dart';
 import 'package:shop/providers/category_provider.dart';
 
 class Categories extends StatefulWidget {

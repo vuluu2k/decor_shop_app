@@ -1,7 +1,12 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:shop/constants/global_variables.dart';
+import 'package:shop/features/bill/services/order_service.dart';
 import 'package:shop/models/product.dart';
 import 'package:shop/models/user.dart';
 import 'package:shop/providers/user_provider.dart';
@@ -16,16 +21,83 @@ class OrderScreen extends StatefulWidget {
 }
 
 class _OrderScreenState extends State<OrderScreen> {
+  double totalPrice = 0;
+  final TextEditingController _addressController = TextEditingController();
+  final OrderService orderService = OrderService();
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    print(widget.products);
+    totalPrice = calcTotalPrice();
+  }
+
+  double calcTotalPrice() {
+    double total = 0;
+    for (var product in widget.products) {
+      total += product.product.price * product.quantity;
+    }
+
+    return total;
   }
 
   @override
   Widget build(BuildContext context) {
     final User user = Provider.of<UserProvider>(context).user;
+    bool orderLoading = false;
+
+    void orderNow() async {
+      setState(() {
+        orderLoading = true;
+      });
+      showDialog(
+        context: context,
+        useSafeArea: true,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+            child: Center(
+              child: Material(
+                color: Colors.transparent,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const SpinKitFoldingCube(
+                      color: Colors.white,
+                      size: 30.0,
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(top: 10),
+                      padding: const EdgeInsets.all(10),
+                      child: const Text(
+                        'Đang xử lý...',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
+      );
+      await orderService.createOrder(
+        context: context,
+        products: widget.products,
+        address: _addressController.text.isEmpty
+            ? user.address
+            : _addressController.text,
+        onSuccess: () {
+          setState(() {
+            orderLoading = false;
+            Navigator.pop(context);
+          });
+        },
+      );
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -34,7 +106,7 @@ class _OrderScreenState extends State<OrderScreen> {
       body: Column(
         children: [
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 4),
+            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 20),
             margin: const EdgeInsets.symmetric(vertical: 5),
             decoration: const BoxDecoration(
               color: Colors.white,
@@ -46,8 +118,19 @@ class _OrderScreenState extends State<OrderScreen> {
               ),
             ),
             alignment: Alignment.centerLeft,
-            child: Text(
-                'Đơn hàng sẽ được giao tới ${user.fullName} tại ${user.address}'),
+            child: Row(
+              children: [
+                const Icon(
+                  Icons.location_on_outlined,
+                  color: GlobalVariables.selectedNavBarColor,
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                Text(
+                    'Đơn hàng sẽ được giao tới ${user.fullName} tại ${user.address}'),
+              ],
+            ),
           ),
           Container(
             alignment: Alignment.centerLeft,
@@ -131,7 +214,38 @@ class _OrderScreenState extends State<OrderScreen> {
                 Text('Thanh toán khi nhận hàng')
               ],
             ),
-          )
+          ),
+          Container(
+            margin: const EdgeInsets.only(top: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+            decoration: const BoxDecoration(
+              color: Colors.white,
+            ),
+            child: Column(
+              children: [
+                Container(
+                  alignment: Alignment.centerLeft,
+                  margin: const EdgeInsets.only(bottom: 10),
+                  child: const Text(
+                    'Không nhập mặc định lấy địa chỉ đăng ký tài khoản',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  child: TextField(
+                    controller: _addressController,
+                    decoration: const InputDecoration(
+                      hintText: 'Nhập địa chỉ',
+                      hintStyle: TextStyle(fontSize: 14),
+                    ),
+                    selectionHeightStyle: BoxHeightStyle.tight,
+                  ),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
       bottomSheet: SizedBox(
@@ -146,14 +260,14 @@ class _OrderScreenState extends State<OrderScreen> {
                 decoration: const BoxDecoration(
                   color: Colors.white,
                 ),
-                child: const Column(
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Text('Tổng thanh toán'),
+                    const Text('Tổng thanh toán'),
                     Text(
-                      '₫30000000',
-                      style: TextStyle(
+                      '₫$totalPrice',
+                      style: const TextStyle(
                         color: GlobalVariables.selectedNavBarColor,
                         fontWeight: FontWeight.w500,
                       ),
@@ -165,7 +279,7 @@ class _OrderScreenState extends State<OrderScreen> {
             Expanded(
               flex: 1,
               child: InkWell(
-                onTap: () {},
+                onTap: orderNow,
                 child: Container(
                   alignment: Alignment.center,
                   decoration: const BoxDecoration(

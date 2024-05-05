@@ -5,13 +5,14 @@ import 'package:shop/models/product.dart';
 import 'package:shop/providers/product_provider.dart';
 
 class ProductList extends StatelessWidget {
-  const ProductList({super.key});
+  final Products products;
+  const ProductList({super.key, required this.products});
 
   @override
   Widget build(BuildContext context) {
-    final products = Provider.of<ProductProvider>(context).products;
-
-    if (products.content.isEmpty) return Text('loading...');
+    if (products.content.isEmpty) {
+      return const Center(child: Text('Chưa có sản phẩm nào!'));
+    }
 
     return Wrap(
       spacing: 10.0, // gap between adjacent chips

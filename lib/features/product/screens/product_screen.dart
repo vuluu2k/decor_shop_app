@@ -1,12 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 import 'package:shop/common/widgets/cart_button.dart';
 import 'package:shop/common/widgets/count_item.dart';
 import 'package:shop/constants/global_variables.dart';
 import 'package:shop/features/bill/screen/order_screen.dart';
 import 'package:shop/features/cart/services/cart_service.dart';
+import 'package:shop/features/favorite/services/favorite_service.dart';
 import 'package:shop/models/product.dart';
+import 'package:shop/providers/favorite_provider.dart';
 
 class ProductScreen extends StatefulWidget {
   static const String routeName = '/product-screen';
@@ -19,6 +22,22 @@ class ProductScreen extends StatefulWidget {
 
 class _ProductScreenState extends State<ProductScreen> {
   final CartService cartService = CartService();
+  final FavoriteService favoriteService = FavoriteService();
+
+  void toggleFavorite(bool isFavorite, favorite) {
+    if (isFavorite) {
+      favoriteService.removeFromFavorite(
+        context: context,
+        idDecor: widget.product.id,
+        idFavorite: favorite.id,
+      );
+    } else {
+      favoriteService.addToFavorite(
+        context: context,
+        idDecor: widget.product.id,
+      );
+    }
+  }
 
   void buyNow() {
     Navigator.pushNamed(
@@ -31,6 +50,15 @@ class _ProductScreenState extends State<ProductScreen> {
   @override
   Widget build(BuildContext context) {
     final product = widget.product;
+    final favorites = Provider.of<FavoriteProvider>(context).favorites;
+
+    final isFavorite =
+        favorites.content.any((element) => element.decor.id == product.id);
+    final favorite = isFavorite
+        ? favorites.content
+            .firstWhere((element) => element.decor.id == product.id)
+        : null;
+
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -87,15 +115,27 @@ class _ProductScreenState extends State<ProductScreen> {
                     ),
                   ),
                 ),
-                Container(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Còn ${product.quantity} sản phẩm',
-                    style: const TextStyle(
-                      fontSize: 12,
-                      color: Colors.grey,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'Còn ${product.quantity} sản phẩm',
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: Colors.grey,
+                        ),
+                      ),
                     ),
-                  ),
+                    InkWell(
+                      onTap: () => toggleFavorite(isFavorite, favorite),
+                      child: Icon(
+                        isFavorite ? Icons.favorite : Icons.favorite_outline,
+                        color: GlobalVariables.selectedNavBarColor,
+                      ),
+                    )
+                  ],
                 ),
               ],
             ),

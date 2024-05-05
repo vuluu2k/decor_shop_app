@@ -7,7 +7,6 @@ class Product {
   final int id;
   final String modifiedDate;
   final String createdDate;
-  final bool deleted;
   final int idDecorType;
   final Category decorType;
   final String name;
@@ -21,7 +20,6 @@ class Product {
     required this.id,
     required this.modifiedDate,
     required this.createdDate,
-    required this.deleted,
     required this.idDecorType,
     required this.decorType,
     required this.name,
@@ -37,7 +35,6 @@ class Product {
       'id': id,
       'modifiedDate': modifiedDate,
       'createdDate': createdDate,
-      'deleted': deleted,
       'idDecorType': idDecorType,
       'decorType': decorType.toMap(),
       'name': name,
@@ -54,7 +51,6 @@ class Product {
       id: map['id']?.toInt() ?? 0,
       modifiedDate: map['modifiedDate']?.toString() ?? '',
       createdDate: map['createdDate']?.toString() ?? '',
-      deleted: map['deleted'] ?? false,
       idDecorType: map['idDecorType'] ?? 0,
       decorType: Category.fromMap(map['decorType']),
       name: map['name']?.toString() ?? '',
