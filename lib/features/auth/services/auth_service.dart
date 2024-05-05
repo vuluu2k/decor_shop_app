@@ -159,4 +159,53 @@ class AuthService {
       showSnackBar(context, e.toString());
     }
   }
+
+  Future<void> updateUser({
+    required BuildContext context,
+    required String name,
+    required String phone,
+    required String address,
+    required VoidCallback onSuccess,
+  }) async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? token = prefs.getString('token');
+      String? userId = prefs.getString('user_id');
+
+      http.Response res = await http.put(
+        Uri.parse('$uri/api/nguoi-dung/put/$userId'),
+        body: jsonEncode(
+          {
+            'fullName': name,
+            'sdt': phone,
+            'address': address,
+          },
+        ),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $token'
+        },
+      );
+
+      print(res.body);
+
+      if (res.statusCode == 200) {
+        getUserData(context);
+        showSnackBar(context, 'Cập nhật thành công!');
+        onSuccess();
+      }
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
+  }
+
+  Future<void> logout({
+    required BuildContext context,
+  }) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('token');
+    await prefs.remove('user_id');
+
+    Provider.of<UserProvider>(context, listen: false).resetUser();
+  }
 }

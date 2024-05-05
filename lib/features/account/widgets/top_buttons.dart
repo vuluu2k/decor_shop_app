@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shop/common/widgets/custom_button.dart';
 import 'package:shop/common/widgets/custom_textfield.dart';
+import 'package:shop/features/account/screens/info_screen.dart';
 import 'package:shop/features/account/widgets/account_button.dart';
 import 'package:shop/features/auth/services/auth_service.dart';
 import 'package:shop/features/bill/screen/bill_screen.dart';
@@ -25,7 +26,7 @@ class TopButtons extends StatelessWidget {
           AccountButton(
             text: 'Thông tin cá nhân',
             onTap: () {
-              Navigator.pushNamed(context, CartScreen.routeName);
+              Navigator.pushNamed(context, InfoScreen.routeName);
             },
             icon: Icons.info_outlined,
           ),
@@ -113,7 +114,9 @@ class TopButtons extends StatelessWidget {
           ),
           AccountButton(
             text: 'Đăng xuất',
-            onTap: () {},
+            onTap: () {
+              authService.logout(context: context);
+            },
             icon: Icons.logout_outlined,
           ),
         ],

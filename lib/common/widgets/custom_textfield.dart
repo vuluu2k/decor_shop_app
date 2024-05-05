@@ -5,12 +5,14 @@ class CustomTextField extends StatelessWidget {
   final TextInputType? keyboardType;
   final bool? obscureText;
   final String hintText;
+  final bool? enabled;
   const CustomTextField({
     super.key,
     required this.controller,
     required this.hintText,
     this.keyboardType,
     this.obscureText,
+    this.enabled,
   });
 
   @override
@@ -33,6 +35,7 @@ class CustomTextField extends StatelessWidget {
           ),
         ),
       ),
+      enabled: enabled ?? true,
       validator: (val) {
         if (val == null || val.isEmpty) {
           return 'Nhập $hintText';

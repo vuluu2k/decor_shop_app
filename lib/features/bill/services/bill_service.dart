@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shop/constants/global_variables.dart';
 import 'package:shop/constants/utils.dart';
 import 'package:http/http.dart' as http;
+import 'package:shop/providers/bill_provider.dart';
 
 class BillService {
-  Future<void> getBill({required BuildContext context}) async {
+  Future<void> getBills({required BuildContext context}) async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String? token = prefs.getString('token');
@@ -18,6 +20,11 @@ class BillService {
           'Authorization': 'Bearer $token',
         },
       );
+
+      if (res.statusCode == 200) {
+        var billProvider = Provider.of<BillProvider>(context, listen: false);
+        billProvider.setBills(res.body);
+      }
     } catch (e) {
       showSnackBar(context, e.toString());
     }

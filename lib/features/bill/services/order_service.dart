@@ -53,7 +53,7 @@ class OrderService {
             },
           ),
         );
-
+        showSnackBar(context, 'Đặt hàng thành công');
         onSuccess();
       }
     } catch (e) {

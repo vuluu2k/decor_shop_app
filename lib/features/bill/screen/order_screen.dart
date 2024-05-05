@@ -6,6 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:shop/constants/global_variables.dart';
+import 'package:shop/features/bill/screen/bill_screen.dart';
 import 'package:shop/features/bill/services/order_service.dart';
 import 'package:shop/models/product.dart';
 import 'package:shop/models/user.dart';
@@ -94,6 +95,7 @@ class _OrderScreenState extends State<OrderScreen> {
           setState(() {
             orderLoading = false;
             Navigator.pop(context);
+            Navigator.pushNamed(context, BillScreen.routeName);
           });
         },
       );

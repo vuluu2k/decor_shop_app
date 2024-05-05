@@ -24,4 +24,23 @@ class UserProvider extends ChangeNotifier {
     _user = User.fromJson(user);
     notifyListeners();
   }
+
+  void resetUser() {
+    _user = User(
+      id: -1,
+      modifiedDate: '',
+      createdDate: '',
+      deleted: false,
+      email: '',
+      fullName: '',
+      password: '',
+      role: 1,
+      gioiTinh: true,
+      address: '',
+      sdt: '',
+      avatar: '',
+      status: 1,
+    );
+    notifyListeners();
+  }
 }

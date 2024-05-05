@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shop/common/widgets/bottom_bar.dart';
+import 'package:shop/features/account/screens/info_screen.dart';
 import 'package:shop/features/auth/screens/auth_screen.dart';
+import 'package:shop/features/bill/screen/bill_screen.dart';
 import 'package:shop/features/bill/screen/order_screen.dart';
 import 'package:shop/features/cart/screens/cart_screen.dart';
 import 'package:shop/features/category/screens/category_screen.dart';
@@ -48,6 +50,16 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return MaterialPageRoute(
         settings: settings,
         builder: (_) => OrderScreen(products: products),
+      );
+    case BillScreen.routeName:
+      return MaterialPageRoute(
+        settings: settings,
+        builder: (_) => const BillScreen(),
+      );
+    case InfoScreen.routeName:
+      return MaterialPageRoute(
+        settings: settings,
+        builder: (_) => const InfoScreen(),
       );
     default:
       return MaterialPageRoute(

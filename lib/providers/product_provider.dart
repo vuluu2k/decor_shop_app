@@ -8,10 +8,23 @@ class ProductProvider extends ChangeNotifier {
     totalPages: 0,
   );
 
+  Products _productsCategory = Products(
+    content: List<Product>.empty(),
+    totalElements: 0,
+    totalPages: 0,
+  );
+
   Products get products => _products;
 
   void setProducts(String products) {
     _products = Products.fromJson(products);
+    notifyListeners();
+  }
+
+  Products get productsCategory => _productsCategory;
+
+  void setProductsCategory(String products) {
+    _productsCategory = Products.fromJson(products);
     notifyListeners();
   }
 }

@@ -167,6 +167,7 @@ class _AuthScreenState extends State<AuthScreen> {
                               CustomTextField(
                                 controller: _passwordController,
                                 hintText: "Mật khẩu",
+                                obscureText: true,
                               ),
                               const SizedBox(height: 10),
                               CustomButton(

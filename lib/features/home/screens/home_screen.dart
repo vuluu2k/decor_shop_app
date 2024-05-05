@@ -1,14 +1,14 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:shop/common/widgets/cart_button.dart';
 import 'package:shop/common/widgets/product_list.dart';
 import 'package:shop/constants/global_variables.dart';
+import 'package:shop/features/home/services/product_service.dart';
 import 'package:shop/features/home/widgets/carousels.dart';
 import 'package:shop/features/home/widgets/categories.dart';
-import 'package:shop/models/product.dart';
 import 'package:shop/providers/product_provider.dart';
-import 'package:shop/providers/user_provider.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String routeName = '/home-screen';
@@ -19,9 +19,33 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final ProductService productService = ProductService();
+  Timer? _debounce;
+
+  @override
+  void dispose() {
+    _debounce?.cancel();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    productService.getProducts(context: context);
+  }
+
+  void getProducts(search) {
+    if (_debounce?.isActive ?? false) {
+      _debounce?.cancel();
+    }
+
+    _debounce = Timer(const Duration(milliseconds: 300), () {
+      productService.getProducts(context: context, search: search);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<UserProvider>(context).user;
     final products = Provider.of<ProductProvider>(context).products;
     const borderSearchRadius = 4.0;
 
@@ -44,6 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     shadowColor: Colors.transparent,
                     elevation: 1,
                     child: TextFormField(
+                      onChanged: getProducts,
                       decoration: InputDecoration(
                         prefixIcon: InkWell(
                           onTap: () {},

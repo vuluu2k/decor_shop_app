@@ -4,10 +4,12 @@ import 'package:shop/common/widgets/bottom_bar.dart';
 import 'package:shop/constants/global_variables.dart';
 import 'package:shop/features/auth/screens/auth_screen.dart';
 import 'package:shop/features/auth/services/auth_service.dart';
+import 'package:shop/features/bill/services/bill_service.dart';
 import 'package:shop/features/cart/services/cart_service.dart';
 import 'package:shop/features/favorite/services/favorite_service.dart';
 import 'package:shop/features/home/services/category_service.dart';
 import 'package:shop/features/home/services/product_service.dart';
+import 'package:shop/providers/bill_provider.dart';
 import 'package:shop/providers/cart_provider.dart';
 import 'package:shop/providers/category_provider.dart';
 import 'package:shop/providers/favorite_provider.dart';
@@ -22,6 +24,7 @@ void main() {
     ChangeNotifierProvider(create: (context) => ProductProvider()),
     ChangeNotifierProvider(create: (context) => CartProvider()),
     ChangeNotifierProvider(create: (context) => FavoriteProvider()),
+    ChangeNotifierProvider(create: (context) => BillProvider()),
   ], child: const MyApp()));
 }
 
@@ -38,15 +41,17 @@ class _MyAppState extends State<MyApp> {
   final ProductService productService = ProductService();
   final CartService cartService = CartService();
   final FavoriteService favoriteService = FavoriteService();
+  final BillService billService = BillService();
 
   @override
   void initState() {
     super.initState();
     authService.getUserData(context);
     categoryService.getCategories(context: context);
-    productService.getProducts(context: context);
+    // productService.getProducts(context: context);
     cartService.getCart(context: context);
     favoriteService.getFavorite(context: context);
+    billService.getBills(context: context);
   }
 
   @override
