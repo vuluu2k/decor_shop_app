@@ -41,7 +41,7 @@ class _CategoriesState extends State<Categories> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(20),
                       child: Image.network(
-                        '${uriImage}${content[index].image}',
+                        content[index].image,
                         fit: BoxFit.cover,
                         height: 40,
                         width: 40,

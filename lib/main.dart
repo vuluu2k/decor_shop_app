@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shop/common/widgets/bottom_bar.dart';
 import 'package:shop/constants/global_variables.dart';
 import 'package:shop/features/auth/screens/auth_screen.dart';
@@ -48,7 +49,6 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     authService.getUserData(context);
     categoryService.getCategories(context: context);
-    // productService.getProducts(context: context);
     cartService.getCart(context: context);
     favoriteService.getFavorite(context: context);
     billService.getBills(context: context);
@@ -56,6 +56,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    final UserProvider userProvider = Provider.of<UserProvider>(context);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Decor',
@@ -80,9 +81,7 @@ class _MyAppState extends State<MyApp> {
         ),
       ),
       onGenerateRoute: (settings) => generateRoute(settings),
-      home: Provider.of<UserProvider>(context).user.id == -1
-          ? const AuthScreen()
-          : const BottomBar(),
+      home: userProvider.user.id == -1 ? const AuthScreen() : const BottomBar(),
     );
   }
 }

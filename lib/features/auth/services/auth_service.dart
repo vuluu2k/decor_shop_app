@@ -9,6 +9,7 @@ import 'package:shop/common/widgets/bottom_bar.dart';
 import 'package:shop/constants/error_handing.dart';
 import 'package:shop/constants/global_variables.dart';
 import 'package:shop/constants/utils.dart';
+import 'package:shop/features/auth/screens/auth_screen.dart';
 import 'package:shop/models/user.dart';
 import 'package:http/http.dart' as http;
 import 'package:shop/providers/user_provider.dart';

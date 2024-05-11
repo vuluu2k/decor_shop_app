@@ -79,7 +79,7 @@ class _ProductScreenState extends State<ProductScreen> {
               color: Colors.white,
             ),
             child: Image.network(
-              '$uriImage${product.image}',
+              product.image,
               alignment: Alignment.center,
             ),
           ),

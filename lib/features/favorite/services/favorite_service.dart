@@ -13,6 +13,8 @@ class FavoriteService {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String? token = prefs.getString('token');
+      if (token == null) return;
+
       String? userId = prefs.getString('user_id');
       http.Response res = await http.get(
         Uri.parse('$uri/api/favorite/page?filter=idUser:$userId'),

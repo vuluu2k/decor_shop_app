@@ -66,7 +66,7 @@ class _CartScreenState extends State<CartScreen> {
                     child: Row(
                       children: [
                         Image.network(
-                          '$uriImage${cart.decor.image}',
+                          cart.decor.image,
                           fit: BoxFit.cover,
                           height: 80,
                           width: 80,

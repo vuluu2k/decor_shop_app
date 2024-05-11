@@ -9,6 +9,7 @@ import 'package:shop/common/widgets/bottom_bar.dart';
 import 'package:shop/constants/global_variables.dart';
 import 'package:shop/features/bill/screen/bill_screen.dart';
 import 'package:shop/features/bill/services/order_service.dart';
+import 'package:shop/features/cart/services/cart_service.dart';
 import 'package:shop/models/product.dart';
 import 'package:shop/models/user.dart';
 import 'package:shop/providers/user_provider.dart';
@@ -44,6 +45,7 @@ class _OrderScreenState extends State<OrderScreen> {
   @override
   Widget build(BuildContext context) {
     final User user = Provider.of<UserProvider>(context).user;
+    final CartService cartService = CartService();
     bool orderLoading = false;
 
     void orderNow() async {
@@ -95,9 +97,9 @@ class _OrderScreenState extends State<OrderScreen> {
         onSuccess: () {
           setState(() {
             orderLoading = false;
-            Navigator.pop(context);
-            Navigator.pushNamed(context, BottomBar.routeName);
           });
+          cartService.getCart(context: context);
+          Navigator.popUntil(context, (route) => route.isFirst);
         },
       );
     }
@@ -159,7 +161,7 @@ class _OrderScreenState extends State<OrderScreen> {
               child: Row(
                 children: [
                   Image.network(
-                    '$uriImage${product.product.image}',
+                    product.product.image,
                     fit: BoxFit.cover,
                     width: 50,
                     height: 50,

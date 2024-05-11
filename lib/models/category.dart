@@ -34,8 +34,9 @@ class Category {
       modifiedDate: map['modifiedDate']?.toString() ?? '',
       createdDate: map['createdDate']?.toString() ?? '',
       name: map['name']?.toString() ?? '',
-      image: map['image']?.toString() ??
-          'https://down-vn.img.susercontent.com/file/687f3967b7c2fe6a134a2c11894eea4b_tn',
+      image: map['image'] != null && map['image'].toString().startsWith('https')
+          ? map['image'].toString()
+          : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQo4uMRvX1A725J9KaffjZxSSbM99l914JtEA&s',
       status: map['status']?.toInt() ?? 0,
     );
   }
