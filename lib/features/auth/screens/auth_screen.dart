@@ -4,7 +4,7 @@ import 'package:shop/common/widgets/custom_textfield.dart';
 import 'package:shop/constants/global_variables.dart';
 import 'package:shop/features/auth/services/auth_service.dart';
 
-enum Auth { signin, signup }
+enum Auth { signin, signup, forgot }
 
 class AuthScreen extends StatefulWidget {
   static const String routeName = '/auth-screen';
@@ -18,6 +18,7 @@ class _AuthScreenState extends State<AuthScreen> {
   Auth _auth = Auth.signin;
   final _signUpFormKey = GlobalKey<FormState>();
   final _signInFormKey = GlobalKey<FormState>();
+  final _forgotFormKey = GlobalKey<FormState>();
   final AuthService authService = AuthService();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
@@ -34,6 +35,15 @@ class _AuthScreenState extends State<AuthScreen> {
     _nameController.dispose();
   }
 
+  void clearState() {
+    _nameController.clear();
+    _emailController.clear();
+    _phoneController.clear();
+    _addressController.clear();
+    _passwordController.clear();
+    _rePasswordController.clear();
+  }
+
   void signUpUser() {
     authService.signUpUser(
       context: context,
@@ -47,15 +57,34 @@ class _AuthScreenState extends State<AuthScreen> {
         setState(() {
           _auth = Auth.signin;
         });
+
+        clearState();
       },
     );
   }
 
   void signInUser() {
     authService.signInUser(
-        context: context,
-        email: _emailController.text,
-        password: _passwordController.text);
+      context: context,
+      email: _emailController.text,
+      password: _passwordController.text,
+    );
+  }
+
+  void forgotPassword() {
+    authService.forgotPassword(
+      context: context,
+      email: _emailController.text,
+      password: _passwordController.text,
+      rePassword: _rePasswordController.text,
+      onSuccess: () {
+        setState(() {
+          _auth = Auth.signin;
+        });
+
+        clearState();
+      },
+    );
   }
 
   @override
@@ -161,7 +190,7 @@ class _AuthScreenState extends State<AuthScreen> {
                             children: [
                               CustomTextField(
                                 controller: _emailController,
-                                hintText: "Tên người dùng / email",
+                                hintText: "Email",
                               ),
                               const SizedBox(height: 10),
                               CustomTextField(
@@ -191,6 +220,62 @@ class _AuthScreenState extends State<AuthScreen> {
                                     child: Text('Đăng ký'),
                                   )
                                 ],
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _auth = Auth.forgot;
+                                  });
+                                },
+                                child: const Text('Quên mật khẩu?'),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    if (_auth == Auth.forgot)
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        child: Form(
+                          key: _forgotFormKey,
+                          child: Column(
+                            children: [
+                              CustomTextField(
+                                controller: _emailController,
+                                hintText: "Email",
+                              ),
+                              const SizedBox(height: 10),
+                              CustomTextField(
+                                controller: _passwordController,
+                                hintText: "Mật khẩu mới",
+                                obscureText: true,
+                              ),
+                              const SizedBox(height: 10),
+                              CustomTextField(
+                                controller: _rePasswordController,
+                                hintText: "Nhập lại mật khẩu",
+                                obscureText: true,
+                              ),
+                              const SizedBox(height: 10),
+                              CustomButton(
+                                text: 'Lấy lại mật khẩu',
+                                onTap: () {
+                                  if (_forgotFormKey.currentState!.validate()) {
+                                    forgotPassword();
+                                  }
+                                },
+                              ),
+                              const SizedBox(height: 10),
+                              ElevatedButton(
+                                child: const Text('Quay lại'),
+                                style: ElevatedButton.styleFrom(
+                                  minimumSize: const Size(double.infinity, 50),
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    _auth = Auth.signin;
+                                  });
+                                },
                               ),
                             ],
                           ),

@@ -188,13 +188,46 @@ class AuthService {
         },
       );
 
-      print(res.body);
-
       if (res.statusCode == 200) {
         getUserData(context);
         showSnackBar(context, 'Cập nhật thành công!');
         onSuccess();
       }
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
+  }
+
+  Future<void> forgotPassword({
+    required BuildContext context,
+    required String email,
+    required String password,
+    required String rePassword,
+    required VoidCallback onSuccess,
+  }) async {
+    try {
+      print({email, password, rePassword});
+      if (password != rePassword) {
+        showSnackBar(context, "Mật khẩu nhập lại không chính xác!");
+        return;
+      }
+
+      http.Response res = await http.post(
+        Uri.parse('$uri/api/nguoi-dung/forgot-password'),
+        body: jsonEncode({'username': email, 'password': password}),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+
+      httpErrorHandle(
+        response: res,
+        context: context,
+        onSuccess: () async {
+          showSnackBar(context, 'Đổi mật khẩu thành công!');
+          onSuccess();
+        },
+      );
     } catch (e) {
       showSnackBar(context, e.toString());
     }
