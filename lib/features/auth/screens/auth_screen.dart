@@ -3,6 +3,8 @@ import 'package:shop/common/widgets/custom_button.dart';
 import 'package:shop/common/widgets/custom_textfield.dart';
 import 'package:shop/constants/global_variables.dart';
 import 'package:shop/features/auth/services/auth_service.dart';
+import 'package:shop/features/cart/services/cart_service.dart';
+import 'package:shop/features/favorite/services/favorite_service.dart';
 
 enum Auth { signin, signup, forgot }
 
@@ -19,7 +21,11 @@ class _AuthScreenState extends State<AuthScreen> {
   final _signUpFormKey = GlobalKey<FormState>();
   final _signInFormKey = GlobalKey<FormState>();
   final _forgotFormKey = GlobalKey<FormState>();
+
   final AuthService authService = AuthService();
+  final CartService cartService = CartService();
+  final FavoriteService cavoriteService = FavoriteService();
+
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
@@ -68,6 +74,10 @@ class _AuthScreenState extends State<AuthScreen> {
       context: context,
       email: _emailController.text,
       password: _passwordController.text,
+      onSuccess: () {
+        cartService.getCart(context: context);
+        cavoriteService.getFavorite(context: context);
+      },
     );
   }
 

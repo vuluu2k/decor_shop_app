@@ -34,7 +34,7 @@ class Category {
       modifiedDate: map['modifiedDate']?.toString() ?? '',
       createdDate: map['createdDate']?.toString() ?? '',
       name: map['name']?.toString() ?? '',
-      image: map['image'] != null && map['image'].toString().startsWith('https')
+      image: map['image'] != null && map['image'].toString().startsWith('http')
           ? map['image'].toString()
           : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQo4uMRvX1A725J9KaffjZxSSbM99l914JtEA&s',
       status: map['status']?.toInt() ?? 0,

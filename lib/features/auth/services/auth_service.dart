@@ -3,6 +3,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shop/common/widgets/bottom_bar.dart';
@@ -72,6 +73,7 @@ class AuthService {
     required BuildContext context,
     required String email,
     required String password,
+    required VoidCallback onSuccess,
   }) async {
     try {
       http.Response res = await http.post(
@@ -94,6 +96,7 @@ class AuthService {
           );
 
           getUserData(context);
+          onSuccess();
         },
       );
     } catch (e) {
